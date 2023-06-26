@@ -1,0 +1,29 @@
+service: analysis
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ap-northeast-2
+
+custom:
+  pythonPackage: "arn:aws:lambda:${self:provider.region}:${AWS::AccountId}:layer:pythonPackage:latest"
+
+package:
+  individually: true
+  exclude:
+    - venv/**
+    - node_modules/**
+
+functions:
+  anomally:
+    handler: handler.getAnomally
+    layers:
+      - ${self:custom.pythonPackage}
+    events:
+      - http:
+          path: /
+          method: get
+plugins:
+  - serverless-latest-layer-version

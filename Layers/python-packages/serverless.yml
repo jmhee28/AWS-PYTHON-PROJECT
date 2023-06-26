@@ -1,0 +1,25 @@
+service: python-package
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ap-northeast-2
+
+package:
+  exclude:
+    - node_modules/**
+    - .env
+    - .vscode/**
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+    layer:
+      name: pythonPackage
+      compatibleRuntimes:
+        - python3.9
+
+plugins:
+  - serverless-python-requirements
