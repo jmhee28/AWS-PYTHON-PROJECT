@@ -18,12 +18,13 @@ package:
 
 functions:
   anomally:
-    handler: handler.getAnomally
+    handler: handler.analysis
     layers:
       - ${self:custom.pythonPackage}
     events:
       - http:
-          path: /
+          path: /anomal
           method: get
+      
 plugins:
   - serverless-latest-layer-version
