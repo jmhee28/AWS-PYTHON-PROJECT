@@ -6,9 +6,17 @@ from scipy.stats import zscore
 from service.analyzeService import *
 
 def analysis(event, context):
-
-    if event.resource == "anomal":
+    resource = event.resource
+    if resource == "/anomal":
         result = getAnomally()
+    elif resource == '/plot':
+        makePlot()
+        result = 'success'
+    elif resource == '/graph':
+        makeGraph()
+        result = 'success'
+    elif resource == 'group':
+        result = getGroupInfo()
         
     response = {
         "statusCode": 200,

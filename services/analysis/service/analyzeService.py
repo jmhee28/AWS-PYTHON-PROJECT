@@ -86,6 +86,7 @@ def getGraph():
     bucket = s3.Bucket(IMG_BUCKET_NAME)
     bucket.put_object(Body=img_data, ContentType='image/png', Key='2023_3_1')
 
+
 def getGroupInfo():
     result = {}
     grouped_df = getGroupedDf()

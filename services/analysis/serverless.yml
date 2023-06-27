@@ -25,6 +25,14 @@ functions:
       - http:
           path: /anomal
           method: get
-      
+      - http:
+          path: /plot
+          method: get
+      - http:
+          path: /graph
+          method: get
+      - http:
+          path: /group
+          method: get
 plugins:
   - serverless-latest-layer-version
