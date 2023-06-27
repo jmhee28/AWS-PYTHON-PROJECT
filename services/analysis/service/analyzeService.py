@@ -31,7 +31,7 @@ def getAnomally():
         
     return result
 
-def getPlot():
+def makePlot():
     df = pd.read_csv('2023_3.csv', encoding='utf-8')
     df['총 집 추정 위치 체류시간'] = df['집 추정 위치 평일 총 체류시간'] + df['집 추정 위치 휴일 총 체류시간']
 
@@ -73,7 +73,7 @@ def getGroupedDf():
     grouped_df['group'] = grouped_df['usage_home_time_ratio'].apply(classify_ratio)
     return grouped_df
 
-def getGraph():
+def makeGraph():
     grouped_df = getGroupedDf()
     plt.figure(figsize=(10,6))
     plt.scatter(grouped_df['총 집 추정 위치 체류시간'], grouped_df['총 배달 사용 일수'], c=grouped_df['group'])

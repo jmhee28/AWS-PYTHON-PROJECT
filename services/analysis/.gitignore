@@ -12,7 +12,7 @@ lib64/
 parts/
 sdist/
 var/
-*.egg-info/
+*.egg-info/ㄴ
 .installed.cfg
 *.egg
 node_modules

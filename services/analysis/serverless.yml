@@ -23,16 +23,16 @@ functions:
       - ${self:custom.pythonPackage}
     events:
       - http:
-          path: /anomal
+          path: anomal
           method: get
       - http:
-          path: /plot
+          path: plot
           method: get
       - http:
-          path: /graph
+          path: graph
           method: get
       - http:
-          path: /group
+          path: group
           method: get
 plugins:
   - serverless-latest-layer-version
