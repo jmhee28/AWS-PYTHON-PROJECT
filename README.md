@@ -1,4 +1,9 @@
-Layers/python-packages : matplotlib
-Layers/python-packages2 : boto3, sklearn
-Layers/python-packages3 : pandas
-Layers/python-packages4 : scipy
+# 서울시 공공 데이터 분석
+
+## How to deploy
+
+`$ npm install -g serverless `
+
+`$ cd services/analysis`
+
+`$ sls deploy `
