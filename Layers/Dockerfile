@@ -4,4 +4,4 @@ RUN yum install -y \
     python3-pip \
     zip \
     RUN yum -y clean all
-RUN python3 -m pip install --upgrade pip
+RUN python3.7 -m pip install --upgrade pip
