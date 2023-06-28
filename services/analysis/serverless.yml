@@ -1,25 +1,19 @@
-service: analysis
+service: analysisV2
 
 frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: python3.7
   region: ap-northeast-2
-
-custom:
-  pythonDocker: "arn:aws:lambda:${self:provider.region}:${AWS::AccountId}:layer:pythonDocker:latest"
-package:
-  individually: true
-  exclude:
-    - venv/**
-    - node_modules/**
+  ecr:
+    images:
+      appimage:
+        path: ./
 
 functions:
   anomally:
-    handler: handler.analysis
-    layers:
-      - ${self:custom.pythonDocker}
+    image:
+      name: appimage
     events:
       - http:
           path: anomal
@@ -33,5 +27,3 @@ functions:
       - http:
           path: group
           method: get
-plugins:
-  - serverless-latest-layer-version

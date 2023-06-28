@@ -1,10 +1,22 @@
 	
 
 import json
-from service.analyzeService import *
+from analyzeService import *
 
+class NumpyEncoder(json.JSONEncoder):
+    """ Special json encoder for numpy types """
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+                                        
 def analysis(event, context):
-    resource = event.resource
+    print(event)
+    resource = event['resource']
 
     if resource == "/anomal":
         result = getAnomally()
@@ -15,8 +27,14 @@ def analysis(event, context):
         makeGraph()
         result = 'success'
     elif resource == '/group':
-        result = getGroupInfo()
-        
+        data = getGroupInfo()
+        result = json.dumps(data, cls=NumpyEncoder)
+        response = {
+        "statusCode": 200,
+        "body": result
+        }
+        return response
+    
     response = {
         "statusCode": 200,
         "body": json.dumps(result)
