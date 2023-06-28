@@ -1,12 +1,11 @@
 	
 
 import json
-import pandas as pd
-from scipy.stats import zscore
 from service.analyzeService import *
 
 def analysis(event, context):
     resource = event.resource
+
     if resource == "/anomal":
         result = getAnomally()
     elif resource == '/plot':
@@ -15,7 +14,7 @@ def analysis(event, context):
     elif resource == '/graph':
         makeGraph()
         result = 'success'
-    elif resource == 'group':
+    elif resource == '/group':
         result = getGroupInfo()
         
     response = {

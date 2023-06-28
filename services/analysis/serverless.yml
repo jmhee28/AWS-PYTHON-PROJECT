@@ -8,8 +8,7 @@ provider:
   region: ap-northeast-2
 
 custom:
-  pythonPackage: "arn:aws:lambda:${self:provider.region}:${AWS::AccountId}:layer:pythonPackage:latest"
-
+  pythonDocker: "arn:aws:lambda:${self:provider.region}:${AWS::AccountId}:layer:pythonDocker:latest"
 package:
   individually: true
   exclude:
@@ -20,7 +19,7 @@ functions:
   anomally:
     handler: handler.analysis
     layers:
-      - ${self:custom.pythonPackage}
+      - ${self:custom.pythonDocker}
     events:
       - http:
           path: anomal

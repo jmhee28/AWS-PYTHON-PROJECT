@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import boto3
 import io
 
-IMG_BUCKET_NAME = "images"
+IMG_BUCKET_NAME = "plt-images"
 s3 = boto3.resource('s3')
 
 def getAnomally():
@@ -94,4 +94,5 @@ def getGroupInfo():
     for name, group in grouped_by_group:
         unique_행정동 = group['행정동'].unique()
         result[name] = unique_행정동
+    return result
         
