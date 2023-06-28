@@ -1,6 +1,8 @@
 	
 
 import json
+import sys
+sys.path.append('/var/task/service')
 from analyzeService import *
 
 class NumpyEncoder(json.JSONEncoder):
