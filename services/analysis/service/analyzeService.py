@@ -4,22 +4,36 @@ from scipy.stats import zscore
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-
+import boto3
+import dotenv
+import os
+import pandas as pd
+dotenv_file = dotenv.find_dotenv()
+dotenv.load_dotenv(dotenv_file)
 import io
 import numpy as np
-import sys
-sys.path.append('/var/task')
-from classes.s3 import S3
-
-s3 = S3()
-
+# import sys
+# sys.path.append('/var/task/classes')
+# from s3 import S3
+ACCESS_KEY_ID = os.environ["ACCESS_KEY_ID"]
+ACCESS_SECRET_KEY = os.environ["ACCESS_SECRET_KEY"]
 IMG_BUCKET_NAME = "plt-images"
 CSV_BUCKET_NAME  = 'edited-csvs'
 CSV_FILE_NAME = '2023_3.csv'
 
+s3 = boto3.client('s3', aws_access_key_id=ACCESS_KEY_ID, 
+                  aws_secret_access_key=ACCESS_SECRET_KEY, 
+                  region_name = 'ap-northeast-2')
+def getCsvFile(bucket, filename):
+    try:
+        response = s3.get_object(Bucket=bucket, Key=filename)
+        df = pd.read_csv(response['Body'], encoding='utf-8')
+        return df
+    except Exception as e:
+        print('CSV 파일 읽기 실패:', e)
 
 def getAnomally():
-    df = s3.getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
+    df = getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
     df['총 집 추정 위치 체류시간'] = df['집 추정 위치 평일 총 체류시간'] + df['집 추정 위치 휴일 총 체류시간']
     df['총 배달 사용 일수'] = df['배달 서비스 사용일수'] + df['배달_브랜드 서비스 사용일수'] + df['배달_식재료 서비스 사용일수']
 
@@ -40,7 +54,7 @@ def getAnomally():
     return result
 
 def makePlot():
-    df = s3.getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
+    df = getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
     df['총 집 추정 위치 체류시간'] = df['집 추정 위치 평일 총 체류시간'] + df['집 추정 위치 휴일 총 체류시간']
 
     df['총 배달 사용 일수'] = df['배달 서비스 사용일수'] + df['배달_브랜드 서비스 사용일수'] + df['배달_식재료 서비스 사용일수']
@@ -59,7 +73,7 @@ def makePlot():
 
     
 def getGroupedDf():
-    df = s3.getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
+    df = getCsvFile(CSV_BUCKET_NAME, CSV_FILE_NAME)
     df['총 집 추정 위치 체류시간'] = df['집 추정 위치 평일 총 체류시간'] + df['집 추정 위치 휴일 총 체류시간']
     df['총 배달 사용 일수'] = df['배달 서비스 사용일수'] + df['배달_브랜드 서비스 사용일수'] + df['배달_식재료 서비스 사용일수']
 

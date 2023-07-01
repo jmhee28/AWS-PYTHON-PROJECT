@@ -7,7 +7,6 @@ RUN yum install -y \
 RUN python3.7 -m pip install --upgrade pip
 RUN pip install asyncio
 RUN pip install python-dotenv
-RUN pip install sklearn
 RUN pip install scikit-learn
 RUN pip install pandas
 RUN pip install scipy

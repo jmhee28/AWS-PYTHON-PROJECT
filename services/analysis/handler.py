@@ -4,10 +4,11 @@ import json
 import sys
 import asyncio
 
-sys.path.append('/var/task')
-from service.analyzeService import *
-from service.csvService import *
-from classes.s3 import *
+sys.path.append('/var/task/service')
+# sys.path.append('/var/task/classes')
+from analyzeService import *
+from csvService import *
+# from s3 import *
 
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
