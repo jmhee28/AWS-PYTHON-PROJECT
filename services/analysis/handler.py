@@ -44,7 +44,12 @@ def analysis(event, context):
         #slice
         elif resource == '/csv/dates':
             loop = asyncio.get_event_loop()
-            loop.run_until_complete(sliceCsv())
+            try:
+                loop.run_until_complete(sliceCsv())
+            except Exception as e:
+                print('slice 오류 발생:', e)
+            finally:
+                loop.close()
             result = 'sucess'
         response = {
             "statusCode": 200,
