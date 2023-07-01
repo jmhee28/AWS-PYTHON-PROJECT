@@ -27,3 +27,6 @@ functions:
       - http:
           path: group
           method: get
+      - http:
+          path: csv/dates
+          method: get

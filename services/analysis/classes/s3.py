@@ -12,11 +12,11 @@ class S3:
                     aws_secret_access_key=ACCESS_SECRET_KEY, 
                     region_name = 'ap-northeast-2')
     
-    def get_object(self, Bucket, Key):
-        return self.s3.get_object(Bucket, Key)
+    # def get_object(self, Bucket, Key):
+    #     return self.s3.get_object(Bucket, Key)
     
-    def upload_fileobj(self, data, Bucket, Key):
-        self.s3.upload_fileobj(data, Bucket, Key)
+    # def upload_fileobj(self, data, Bucket, Key):
+    #     self.s3.upload_fileobj(data, Bucket, Key)
 
     def getCsvFile(self, Bucket, Key):
         try:

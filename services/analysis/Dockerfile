@@ -5,6 +5,7 @@ RUN yum install -y \
     zip \
     RUN yum -y clean all
 RUN python3.7 -m pip install --upgrade pip
+RUN pip install asyncio
 RUN pip install python-dotenv
 RUN pip install sklearn
 RUN pip install scikit-learn

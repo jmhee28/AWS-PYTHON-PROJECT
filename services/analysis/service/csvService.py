@@ -14,11 +14,11 @@ async def sliceByDate(date, df):
     df_date.to_csv(csv_buffer, index=False)
     csv_buffer.seek(0)
 
-    file_name = f'{date}.csv'
+    file_name = f'sliced/{date}.csv'
     await s3.upload_fileobj(csv_buffer, CSV_BUCKET_NAME, file_name)   
 
 async def sliceCsv():
-    Key = 'LOCAL_PEOPLE_DONG_202304.csv'
+    Key = 'reduced/LPD_202304_reduced.csv'
     df = s3.getCsvFile(CSV_BUCKET_NAME, Key)
     # Get unique dates
     with ThreadPoolExecutor(max_workers=10) as executor:
@@ -33,7 +33,7 @@ async def sliceCsv():
             await asyncio.gather(*tasks)
 
 def convertCsv():
-    Key = 'LOCAL_PEOPLE_DONG_202304.csv'
+    Key = 'LPD_202304.csv'
     df = s3.getCsvFile(CSV_BUCKET_NAME, Key)
     # Reset the index
     df.reset_index(inplace=True)
@@ -67,6 +67,7 @@ def convertCsv():
             print(f"Could not convert column {column} to integer.")
 
     # Save the DataFrame back to CSV
+    Key = 'reduced/LPD_202304_reduced.csv'
     csv_buffer = BytesIO()
     df.to_csv(csv_buffer, index=False)
     s3.upload_fileobj(csv_buffer, CSV_BUCKET_NAME, Key)

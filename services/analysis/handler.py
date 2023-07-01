@@ -44,6 +44,7 @@ def analysis(event, context):
         elif resource == '/csv/dates':
             loop = asyncio.get_event_loop()
             loop.run_until_complete(sliceCsv())
+            result = 'sucess'
         response = {
             "statusCode": 200,
             "body": json.dumps(result)
