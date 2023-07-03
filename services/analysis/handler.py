@@ -23,13 +23,13 @@ class NumpyEncoder(json.JSONEncoder):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
 
-def publish_sns_topic():
+def publish_sns_topic(query):
     sns = boto3.client('sns')
     topic_arn = os.environ['sliceCsvTopicArn']  # 환경 변수에서 SNS 토픽 ARN 값을 읽어옵니다.
 
     if topic_arn:
         params = {
-            'Message': 'slice Csv',
+            'Message': query,
             'TopicArn': topic_arn
         }
         response = sns.publish(**params)
@@ -59,7 +59,9 @@ def analysis(event, context):
                 return response
             #slice
             elif resource == '/csv/dates':
-                result = publish_sns_topic()
+                query = event['queryStringParameters']
+                # result = query
+                result = publish_sns_topic(query)
             response = {
                 "statusCode": 200,
                 "body": json.dumps(result)
@@ -70,7 +72,7 @@ def analysis(event, context):
             print("From SNS: " + message)
             loop = asyncio.get_event_loop()
             try:
-                loop.run_until_complete(sliceCsv())
+                loop.run_until_complete(sliceCsv(message))
             except Exception as e:
                 print('slice 오류 발생:', e)
             finally:

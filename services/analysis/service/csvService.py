@@ -39,11 +39,12 @@ async def sliceByDate(date, df):
     file_name = f'sliced/{date}.csv'
     await s3.upload_fileobj(csv_buffer, CSV_BUCKET_NAME, file_name)   
 
-async def sliceCsv():
-    Key = 'reduced/LPD_202304_reduced.csv'
+async def sliceCsv(message):
+    year, month  = message
+    Key = f'lpd-csvs/LOCAL_PEOPLE_DONG_{year}{month}.csv'
+    # Key = 'reduced/LPD_202304_reduced.csv'
     df = getCsvFile(CSV_BUCKET_NAME, Key)
     # Get unique dates
-  
     tasks = []
     dates = df['기준일ID'].unique()
 

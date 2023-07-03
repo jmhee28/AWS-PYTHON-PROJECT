@@ -52,3 +52,7 @@ resources:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: sliceCsv-topic
+
+plugins:
+  # swagger documentation
+  - serverless-aws-documentation

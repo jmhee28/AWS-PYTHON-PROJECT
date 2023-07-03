@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "serverless": "^3.33.0"
+    "serverless": "^3.33.0",
+    "serverless-aws-documentation": "^1.1.0"
   }
 }
