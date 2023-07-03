@@ -43,16 +43,15 @@ async def sliceCsv():
     Key = 'reduced/LPD_202304_reduced.csv'
     df = getCsvFile(CSV_BUCKET_NAME, Key)
     # Get unique dates
-    with ThreadPoolExecutor(max_workers=10) as executor:
-            loop = asyncio.get_event_loop()
-            tasks = []
-            dates = df['기준일ID'].unique()
+  
+    tasks = []
+    dates = df['기준일ID'].unique()
 
-            for date in dates:
-                task = loop.run_in_executor(executor, sliceByDate, date, df)
-                tasks.append(task)
+    for date in dates:
+        task = sliceByDate(date, df)
+        tasks.append(task)
 
-            await asyncio.gather(*tasks)
+    await asyncio.gather(*tasks)
 
 def convertCsv():
     Key = 'LPD_202304.csv'

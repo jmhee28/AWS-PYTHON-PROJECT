@@ -5,11 +5,22 @@ frameworkVersion: "3"
 provider:
   name: aws
   region: ap-northeast-2
+  environment:
+    sliceCsvTopicArn: ${self:custom.sliceCsvTopicArn}
+  iam:
+    role:
+      statements: 
+        - Effect: "Allow"
+          Action:
+            - "sns:*"
+          Resource: 
+            - '*'
   ecr:
     images:
       appimage:
         path: ./
-
+custom:
+  sliceCsvTopicArn:  !Ref SliceTopic
 functions:
   anomally:
     image:
@@ -30,3 +41,13 @@ functions:
       - http:
           path: csv/dates
           method: get
+      - sns:
+          arn: ${self:custom.sliceCsvTopicArn}
+          topicName: sliceCsv-topic
+
+resources:
+  Resources:
+    SliceTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: sliceCsv-topic
