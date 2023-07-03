@@ -23,6 +23,7 @@ custom:
   sliceCsvTopicArn:  !Ref SliceTopic
 functions:
   anomally:
+    timeout: 30
     image:
       name: appimage
     events:
