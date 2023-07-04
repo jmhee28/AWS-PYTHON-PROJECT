@@ -60,8 +60,9 @@ def analysis(event, context):
             #slice
             elif resource == '/csv/dates':
                 query = event['queryStringParameters']
+                message = json.dumps(query)
                 # result = query
-                result = publish_sns_topic(query)
+                result = publish_sns_topic(message)
             response = {
                 "statusCode": 200,
                 "body": json.dumps(result)
@@ -71,8 +72,9 @@ def analysis(event, context):
             message = event['Records'][0]['Sns']['Message']
             print("From SNS: " + message)
             loop = asyncio.get_event_loop()
+            param = json.loads(message)
             try:
-                loop.run_until_complete(sliceCsv(message))
+                loop.run_until_complete(sliceCsv(param))
             except Exception as e:
                 print('slice 오류 발생:', e)
             finally:

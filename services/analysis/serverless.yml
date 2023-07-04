@@ -42,6 +42,7 @@ functions:
       - http:
           path: csv/dates
           method: get
+
       - sns:
           arn: ${self:custom.sliceCsvTopicArn}
           topicName: sliceCsv-topic
