@@ -12,7 +12,7 @@ RUN pip install pandas
 RUN pip install scipy
 RUN pip install matplotlib
 RUN pip install boto3
-
+RUN pip install aioboto3
 
 COPY ./* ./
 
